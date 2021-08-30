@@ -10,7 +10,6 @@ if 'hikaru_total' not in st.session_state:
 split_list = []
 
 st.title("Receipt Tool")
-
 amount = st.number_input("Item Amount")
 
 eva_boolean = st.checkbox("Eva")
