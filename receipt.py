@@ -1,8 +1,12 @@
 import streamlit as st
 
-eva_total = 0
-theo_total = 0
-hikaru_total = 0
+if "eva_total" not in st.session_state:
+    st.session_state['eva_total'] = 0
+if 'theo_total' not in st.session_state:
+    st.session_state['theo_total'] = 0
+if 'hikaru_total' not in st.session_state:
+    st.session_state['hikaru_total'] = 0
+
 split_list = []
 
 st.title("Receipt Tool")
@@ -12,6 +16,7 @@ amount = st.number_input("Item Amount")
 eva_boolean = st.checkbox("Eva")
 theo_boolean = st.checkbox("Theo")
 hikaru_boolean = st.checkbox("Hikaru")
+
 
 if st.button("Add to Running Total"):
     split_list.append(eva_boolean)
@@ -23,15 +28,19 @@ if st.button("Add to Running Total"):
         split_amount = amount / sum(split_list)
 
         if split_list[0] == True:
-            eva_total = eva_total + split_amount
+            st.session_state.eva_total = (float(st.session_state.eva_total) + split_amount)
 
         if split_list[1] == True:
-            theo_total = theo_total + split_amount
+            st.session_state.theo_total = (float(st.session_state.theo_total) + split_amount)
 
         if split_list[2] == True:
-            hikaru_total = hikaru_total + split_amount
+            st.session_state.hikaru_total = (float(st.session_state.hikaru_total) + split_amount)
 
-        col1, col2, col3 = st.beta_columns(3)
-        col1.metric(label="Eva", value="$" + str(eva_total), delta="1.2 °F")
-        col2.metric(label="Theo", value="$" + str(theo_total), delta="-8%")
-        col3.metric(label="Hikaru", value="$" + str(hikaru_total), delta="4%")
+        #st.session_state.eva_total = "{:.2f}".format(st.session_state.eva_total)
+        #st.session_state.theo_total = "{:.2f}".format(st.session_state.theo_total)
+        #st.session_state.hikaru_total = "{:.2f}".format(st.session_state.hikaru_total)
+
+col1, col2, col3 = st.columns(3)
+col1.metric(label="Eva", value="$" + str(st.session_state.eva_total))
+col2.metric(label="Theo", value="$" + str(st.session_state.theo_total))
+col3.metric(label="Hikaru", value="$" + str(st.session_state.hikaru_total))
